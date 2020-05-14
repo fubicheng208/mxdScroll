@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <title>推算武器卷轴</title>
+    <th:block th:include="layout/header"></th:block>
+    <script language="javascript">
+        function test() {
+            document.getElementById("submit_button").value = "test";
+        }
+
+        function start()
+        {
+            document.getElementById("submit_button").disabled = true;
+            document.getElementById("submit_button").value = 5;
+            window.setTimeout("tick()",1000);
+        }
+        function tick()
+        {
+            var time = new Number(document.getElementById("submit_button").value);
+            if(time>0)
+            {
+                document.getElementById("submit_button").value = time-1;
+                window.setTimeout("tick()",1000);
+            }
+            else
+            {
+                document.getElementById("submit_button").disabled = false;
+                document.getElementById("submit_button").value = "提交";
+            }
+        }
+    </script>
+
+</head>
+<body>
+<div class="container">
+    <h3>输入武器属性</h3>
+    <div>
+        <form class="form-horizontal" th:object="${weapon}" th:action="@{/mxd/calculate}" method="post">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">卷轴和星星所加的攻击/魔攻：</label>
+                <div class="col-sm-10">
+                    <input id="buf_attack" type="text" class="form-control" th:field="*{buf_attack}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">武器基础攻击/魔攻（不算火花）：</label>
+                <div class="col-sm-10">
+                    <input id="base_attack" type="text" class="form-control" th:field="*{base_attack}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">主属性增加（如战士就是力量）：</label>
+                <div class="col-sm-10">
+                    <input id="main_attribute" type="text" class="form-control" th:field="*{main_attribute}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">无关属性增加（如战士就是运气或智力）：</label>
+                <div class="col-sm-10">
+                    <input id="vice_attribute" type="text" class="form-control" th:field="*{vice_attribute}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">星星数：</label>
+                <div class="col-sm-10">
+                    <input id="starNum" th:type="text" class="form-control" th:field="*{starNum}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">卷轴数：</label>
+                <div class="col-sm-10">
+                    <input id="scrollNum" th:type="text" class="form-control" th:field="*{scrollNum}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">武器等级(扣减等级不算)：</label>
+                <div class="col-sm-10">
+                    <input id="grade" th:type="text" class="form-control" th:field="*{grade}"/>
+                </div>
+            </div>
+
+            <!--            <div class="form-group">-->
+            <!--                <label class="col-sm-2 control-label">是否使用了X卷或星火卷（选择否即可，开发中）：</label>-->
+            <!--                <div class="col-sm-1 control-label">-->
+            <!--                    <select th:field="*{hasX}" class="selectpicker">-->
+            <!--                        <option th:each="hasX : ${hasXes}" th:value="${hasX.value}" th:text="${hasX.key}"></option>-->
+            <!--                    </select>-->
+            <!--                </div>-->
+            <!--            </div>-->
+
+            <div class="form-group" style="padding-left: 15px;">
+                <label class="col-sm-2 control-label">可能使用的卷轴：</label>
+                <span th:each="scroll: ${scrolls}" style="padding: 20px">
+                            <input th:type="checkbox" th:field="*{possibleScrolls}" th:value="${scroll}"/>
+                            <label th:text="${scroll}"></label>
+                        </span>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <button class="btn btn-primary"  type="submit">计算</button>
+                </div>
+<!--              class="btn btn-primary"  type="submit"   onclick="test()"-->
+            </div>
+        </form>
+    </div>
+    <div>
+        <h3 th:text="${result}">武器等级支持140，150，160，200(16星以下)</h3>
+    </div>
+    <br>
+    <br>
+</div>
+</body>
+</html>
+
+
+<!--<script src="../static/js/edit_validator.js"></script>-->
+

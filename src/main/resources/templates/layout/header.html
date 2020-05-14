@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head lang="en">
+        <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+        <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}"
+              href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"
+              rel="stylesheet" media="screen" />
+        <link rel="stylesheet" th:href="@{/css/style.css}" href="../../static/css/style.css" />
+    </head>
+
+    <body>
+
+<div class="container">
+    <div th:fragment="header">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#" th:href="@{/mxd}">主页</a>
+                    <ul class="nav navbar-nav">
+<!--                        <li><a th:href="@{/products}">Products List</a></li>-->
+<!--                        <li><a th:href="@{/products/add}">Create Product</a></li>-->
+                        <li><a th:href="@{/mxd/weapon}">武器</a></li>
+                        <li><a th:href="@{/mxd/jewelry}">饰品</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="jumbotron" >
+            <div class="row text-center">
+                <div class="row">
+                    <h2>冒险岛卷轴推算工具</h2>
+                </div>
+            </div>
+<!--            <div class="row text-center">-->
+<!--                <img src="../../static/images/mxd_b1.jpg" width="100%"-->
+<!--                     th:src="@{/images/mxd_b1.jpg}" />-->
+<!--            </div>-->
+        </div>
+        
+    </div>
+</div>
+
+</body>
+</html>

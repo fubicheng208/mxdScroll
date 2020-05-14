@@ -1,0 +1,18 @@
+.navbar-default {
+    /*background: #6db33f;*/
+    background: #337ab7;
+    /*background-color:transparent;*/
+}
+
+.navbar-default .navbar-brand {
+    color: white;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: white;
+}
+
+.bg {
+    background:url("../images/mxd_b1.jpg") no-repeat center;
+    background-size:contain;
+}
