@@ -1,5 +1,6 @@
 package com.fubic.mxd.scroll.service.impl;
 
+import com.fubic.mxd.scroll.mapper.ScrollMapper;
 import com.fubic.mxd.scroll.model.IdAttr;
 import com.fubic.mxd.scroll.model.Weapon;
 import com.fubic.mxd.scroll.model.WeaponScroll;
@@ -23,11 +24,14 @@ public class CalculateService implements ICalculateService {
     private static final Logger log = LoggerFactory.getLogger(CalculateService.class);
     @Autowired
     private WeaponScrollRepository weaponScrollRepository;
+    @Autowired
+    private ScrollMapper scrollMapper ;
 
 
     @Override
     public List<WeaponScroll> getAllScroll() {
-        return weaponScrollRepository.findAll();
+//        return weaponScrollRepository.findAll();
+        return scrollMapper.selectAll();
     }
 
 
@@ -103,31 +107,48 @@ public class CalculateService implements ICalculateService {
         for (String name : selected) {
             switch (name) {
                 case "惊人卷":
-                    res.add(weaponScrollRepository.getOne("0"));
+//                    res.add(weaponScrollRepository.getOne("0"));
+                    res.add(scrollMapper.selectById("0"));
                     break;
                 case "RED卷":
-                    res.add(weaponScrollRepository.getOne("1"));
+//                    res.add(weaponScrollRepository.getOne("1"));
+                    res.add(scrollMapper.selectById("1"));
                     break;
                 case "V卷":
-                    res.add(weaponScrollRepository.getOne("2"));
+//                    res.add(weaponScrollRepository.getOne("2"));
+                    res.add(scrollMapper.selectById("2"));
+
                     break;
                 case "X卷":
-                    res.add(weaponScrollRepository.getOne("3"));
-                    res.add(weaponScrollRepository.getOne("9"));
-                    res.add(weaponScrollRepository.getOne("10"));
-                    res.add(weaponScrollRepository.getOne("11"));
+//                    res.add(weaponScrollRepository.getOne("3"));
+                    res.add(scrollMapper.selectById("3"));
+                    res.add(scrollMapper.selectById("9"));
+                    res.add(scrollMapper.selectById("10"));
+                    res.add(scrollMapper.selectById("11"));
+
+//                    res.add(weaponScrollRepository.getOne("9"));
+//                    res.add(weaponScrollRepository.getOne("10"));
+//                    res.add(weaponScrollRepository.getOne("11"));
                     break;
                 case "星火卷":
-                    res.add(weaponScrollRepository.getOne("4"));
-                    res.add(weaponScrollRepository.getOne("12"));
-                    res.add(weaponScrollRepository.getOne("13"));
-                    res.add(weaponScrollRepository.getOne("14"));
+//                    res.add(weaponScrollRepository.getOne("4"));
+//                    res.add(weaponScrollRepository.getOne("12"));
+//                    res.add(weaponScrollRepository.getOne("13"));
+//                    res.add(weaponScrollRepository.getOne("14"));
+                    res.add(scrollMapper.selectById("4"));
+                    res.add(scrollMapper.selectById("12"));
+                    res.add(scrollMapper.selectById("13"));
+                    res.add(scrollMapper.selectById("14"));
                     break;
                 case "痕迹":
-                    res.add(weaponScrollRepository.getOne("5"));
-                    res.add(weaponScrollRepository.getOne("6"));
-                    res.add(weaponScrollRepository.getOne("7"));
-                    res.add(weaponScrollRepository.getOne("8"));
+//                    res.add(weaponScrollRepository.getOne("5"));
+//                    res.add(weaponScrollRepository.getOne("6"));
+//                    res.add(weaponScrollRepository.getOne("7"));
+//                    res.add(weaponScrollRepository.getOne("8"));
+                    res.add(scrollMapper.selectById("5"));
+                    res.add(scrollMapper.selectById("6"));
+                    res.add(scrollMapper.selectById("7"));
+                    res.add(scrollMapper.selectById("8"));
                     break;
                 default:
                     break;
@@ -159,7 +180,8 @@ public class CalculateService implements ICalculateService {
         for (List<String> ls : resList) {
             Map<String, Integer> map = new HashMap<>();
             for (String id : ls) {
-                WeaponScroll ws = (WeaponScroll) weaponScrollRepository.getOne(id);
+//                WeaponScroll ws = (WeaponScroll) weaponScrollRepository.getOne(id);
+                WeaponScroll ws = (WeaponScroll) scrollMapper.selectById(id);
                 String name = ws.getName();
                 if (map.containsKey(name))
                     map.put(name, map.get(name) + 1);
