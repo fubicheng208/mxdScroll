@@ -25,7 +25,7 @@ public class CalculateService implements ICalculateService {
     @Autowired
     private WeaponScrollRepository weaponScrollRepository;
     @Autowired
-    private ScrollMapper scrollMapper ;
+    private ScrollMapper scrollMapper;
 
 
     @Override
