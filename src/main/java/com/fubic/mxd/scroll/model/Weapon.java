@@ -4,6 +4,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.Arrays;
 
 public class Weapon {
     @NotNull
@@ -133,5 +135,20 @@ public class Weapon {
 
     public void setVice_attribute(int vice_attribute) {
         this.vice_attribute = vice_attribute;
+    }
+
+    @Override
+    public String toString() {
+        return "Weapon{" +
+                "starNum=" + starNum +
+                ", scrollNum=" + scrollNum +
+                ", base_attack=" + base_attack +
+                ", buf_attack=" + buf_attack +
+                ", main_attribute=" + main_attribute +
+                ", vice_attribute=" + vice_attribute +
+                ", grade=" + grade +
+                ", hasX=" + hasX +
+                ", possibleScrolls=" + Arrays.toString(possibleScrolls) +
+                '}';
     }
 }

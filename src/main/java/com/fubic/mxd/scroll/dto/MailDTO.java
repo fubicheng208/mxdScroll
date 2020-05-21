@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 
-public class MailDto implements Serializable {
+public class MailDTO implements Serializable {
     //邮件主题
     private String subject;
     //邮件内容
@@ -13,10 +13,10 @@ public class MailDto implements Serializable {
     private String[] tos;
 
 
-    public MailDto() {
+    public MailDTO() {
     }
 
-    public MailDto(String subject, String content, String[] tos) {
+    public MailDTO(String subject, String content, String[] tos) {
         this.subject = subject;
         this.content = content;
         this.tos = tos;

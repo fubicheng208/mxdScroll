@@ -4,6 +4,7 @@ import com.fubic.mxd.scroll.model.Weapon;
 import com.fubic.mxd.scroll.repository.WeaponScrollRepository;
 import com.fubic.mxd.scroll.service.ICalculateService;
 import com.fubic.mxd.scroll.service.impl.CalculateService;
+import com.fubic.mxd.scroll.service.impl.RMQSenderMailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.mail.internet.NewsAddress;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +29,9 @@ public class CalculatorController {
 
     @Autowired
     ICalculateService calculateService;
+
+    @Autowired
+    RMQSenderMailService rmqSenderMailService;
 
     @RequestMapping(value = "")
     public String index() {
@@ -52,16 +57,23 @@ public class CalculatorController {
     @RequestMapping(value = "/calculate", method = RequestMethod.POST)
     public String calculate(@Valid Weapon weapon, BindingResult result, Model model){
         try{
-            if(weapon.getPossibleScrolls().length==0)
+            String[] possibleScrolls = weapon.getPossibleScrolls();
+            if(possibleScrolls.length==0)
                 throw new Exception("未选中任何卷轴");
             if(result.hasErrors()){
                 throw new Exception("请检查您的输入");
             }
             if(weapon.getGrade()!=140 && weapon.getGrade()!=150 && weapon.getGrade()!=160 && weapon.getGrade()!=200)
                 throw new Exception("装备等级，装备等级为武器原始装备等级，扣减的等级不算");
-            model.addAttribute("result", calculateService.getResult(weapon));
+            if(possibleScrolls.length >= 6){
+                model.addAttribute("result","全选卷轴：结果将以email形式发送给您");
+                rmqSenderMailService.sendCalculateMsg(weapon, "fubicheng208@126.com");
+            }else{
+                model.addAttribute("result", calculateService.getResult(weapon));
+            }
         }catch (Exception e){
-            model.addAttribute("result","输入有错：" + e.getMessage());
+            model.addAttribute("result","输入有错:" + e.getMessage());
+            log.error("计算卷轴页面-输入有错-计算失败:{}", e.getMessage());
         }
         setDefaultPage(model);
         return "edit";
