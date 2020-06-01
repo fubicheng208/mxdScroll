@@ -1,7 +1,7 @@
 package com.fubic.mxd.scroll.controller;
 
+import com.fubic.mxd.scroll.aspect.annotation.RequestLog;
 import com.fubic.mxd.scroll.model.Weapon;
-import com.fubic.mxd.scroll.repository.WeaponScrollRepository;
 import com.fubic.mxd.scroll.service.ICalculateService;
 import com.fubic.mxd.scroll.service.impl.CalculateService;
 import com.fubic.mxd.scroll.service.impl.RMQSenderMailService;
@@ -13,9 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.mail.internet.NewsAddress;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,8 +43,9 @@ public class CalculatorController {
 //    }
 
     @RequestMapping(value = "/weapon", method = RequestMethod.GET)
+    @RequestLog(description = "跳转到武器界面")
     public String calWeapon(Model model){
-        model.addAttribute("result","1.五秒钟之内勿重复提交\n2.尽量不要选中所有卷轴\n3.不支持140级一下远古级武器");
+        model.addAttribute("result","1.五秒钟之内勿重复提交\n2.尽量不要选中所有卷轴，选中所有卷轴将以邮件方式发送计算结果\n3.不支持140级一下远古级武器");
         model.addAttribute("weapon", new Weapon());
         setDefaultPage(model);
 
@@ -55,6 +54,7 @@ public class CalculatorController {
 
 
     @RequestMapping(value = "/calculate", method = RequestMethod.POST)
+    @RequestLog(description = "计算卷轴组合")
     public String calculate(@Valid Weapon weapon, BindingResult result, Model model){
         try{
             String[] possibleScrolls = weapon.getPossibleScrolls();

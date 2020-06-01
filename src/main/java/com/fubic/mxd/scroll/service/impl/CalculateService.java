@@ -1,5 +1,6 @@
 package com.fubic.mxd.scroll.service.impl;
 
+import com.fubic.mxd.scroll.aspect.annotation.MethodLog;
 import com.fubic.mxd.scroll.mapper.ScrollMapper;
 import com.fubic.mxd.scroll.model.IdAttr;
 import com.fubic.mxd.scroll.model.Weapon;
@@ -36,6 +37,7 @@ public class CalculateService implements ICalculateService {
 
 
     @Override
+    @MethodLog
     public String getResult(Weapon weapon) throws Exception {
 
 //        List<WeaponScroll> scrolls = getAllScroll();
