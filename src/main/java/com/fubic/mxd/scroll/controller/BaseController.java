@@ -19,7 +19,6 @@ public class BaseController {
         return "index";
     }
 
-
     @RequestMapping("/email")
     @ResponseBody
     public String sendEmail(){

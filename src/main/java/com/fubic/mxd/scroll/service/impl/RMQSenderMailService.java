@@ -53,4 +53,24 @@ public class RMQSenderMailService {
             log.error("异步发送卷轴计算任务失败");
         }
     }
+
+    public void sendCalculateMsg(WeaponEmailDTO weaponEmailDTO){
+        log.info("准备发送计算命令给rabbitmq");
+        try{
+            rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+            rabbitTemplate.setExchange(env.getProperty("mq.mxd.success.email.exchange"));
+            rabbitTemplate.setRoutingKey(env.getProperty("mq.mxd.success.email.routing.key"));
+            rabbitTemplate.convertAndSend(weaponEmailDTO, new MessagePostProcessor() {
+                @Override
+                public Message postProcessMessage(Message message) throws AmqpException {
+                    MessageProperties messageProperties = message.getMessageProperties();
+                    messageProperties.setDeliveryMode(MessageDeliveryMode.PERSISTENT);
+                    messageProperties.setHeader(AbstractJavaTypeMapper.DEFAULT_CONTENT_CLASSID_FIELD_NAME, WeaponEmailDTO.class);
+                    return message;
+                }
+            });
+        }catch (Exception e){
+            log.error("异步发送卷轴计算任务失败");
+        }
+    }
 }

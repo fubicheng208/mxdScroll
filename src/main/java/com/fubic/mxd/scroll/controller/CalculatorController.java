@@ -1,6 +1,7 @@
 package com.fubic.mxd.scroll.controller;
 
 import com.fubic.mxd.scroll.aspect.annotation.RequestLog;
+import com.fubic.mxd.scroll.dto.WeaponEmailDTO;
 import com.fubic.mxd.scroll.model.Weapon;
 import com.fubic.mxd.scroll.service.ICalculateService;
 import com.fubic.mxd.scroll.service.impl.CalculateService;
@@ -42,34 +43,68 @@ public class CalculatorController {
 //        return "edit";
 //    }
 
+//    @RequestMapping(value = "/weapon", method = RequestMethod.GET)
+//    @RequestLog(description = "跳转到武器界面")
+//    public String calWeapon(Model model){
+//        model.addAttribute("result","1.五秒钟之内勿重复提交\n2.尽量不要选中所有卷轴，选中所有卷轴将以邮件方式发送计算结果\n3.不支持140级一下远古级武器");
+//        model.addAttribute("weapon", new Weapon());
+//        setDefaultPage(model);
+//        return "edit";
+//    }
+
     @RequestMapping(value = "/weapon", method = RequestMethod.GET)
     @RequestLog(description = "跳转到武器界面")
     public String calWeapon(Model model){
         model.addAttribute("result","1.五秒钟之内勿重复提交\n2.尽量不要选中所有卷轴，选中所有卷轴将以邮件方式发送计算结果\n3.不支持140级一下远古级武器");
-        model.addAttribute("weapon", new Weapon());
+        model.addAttribute("weaponEmailDTO", new WeaponEmailDTO(new Weapon(), ""));
         setDefaultPage(model);
-
         return "edit";
     }
 
 
+//    @RequestMapping(value = "/calculate", method = RequestMethod.POST)
+//    @RequestLog(description = "计算卷轴组合")
+//    public String calculate(@Valid Weapon weapon, BindingResult result, Model model){
+//        try{
+//            String[] possibleScrolls = weapon.getPossibleScrolls();
+//            if(possibleScrolls.length==0)
+//                throw new Exception("未选中任何卷轴");
+//            if(result.hasErrors()){
+//                throw new Exception("请检查您的输入");
+//            }
+//            if(weapon.getGrade()!=140 && weapon.getGrade()!=150 && weapon.getGrade()!=160 && weapon.getGrade()!=200)
+//                throw new Exception("装备等级，装备等级为武器原始装备等级，扣减的等级不算");
+//            if(possibleScrolls.length >= 6){
+//                model.addAttribute("result","全选卷轴：结果将以email形式发送给您");
+//                rmqSenderMailService.sendCalculateMsg(weapon, "fubicheng208@126.com");
+//            }else{
+//                model.addAttribute("result", calculateService.getResult(weapon));
+//            }
+//        }catch (Exception e){
+//            model.addAttribute("result","输入有错:" + e.getMessage());
+//            log.error("计算卷轴页面-输入有错-计算失败:{}", e.getMessage());
+//        }
+//        setDefaultPage(model);
+//        return "edit";
+//    }
+
     @RequestMapping(value = "/calculate", method = RequestMethod.POST)
     @RequestLog(description = "计算卷轴组合")
-    public String calculate(@Valid Weapon weapon, BindingResult result, Model model){
+    public String calculate(@Valid WeaponEmailDTO weaponEmailDTO, BindingResult result, Model model){
         try{
-            String[] possibleScrolls = weapon.getPossibleScrolls();
+            String[] possibleScrolls = weaponEmailDTO.getWeapon().getPossibleScrolls();
             if(possibleScrolls.length==0)
                 throw new Exception("未选中任何卷轴");
             if(result.hasErrors()){
                 throw new Exception("请检查您的输入");
             }
-            if(weapon.getGrade()!=140 && weapon.getGrade()!=150 && weapon.getGrade()!=160 && weapon.getGrade()!=200)
+            if(weaponEmailDTO.getWeapon().getGrade()!=140 && weaponEmailDTO.getWeapon().getGrade()!=150 && weaponEmailDTO.getWeapon().getGrade()!=160 && weaponEmailDTO.getWeapon().getGrade()!=200)
                 throw new Exception("装备等级，装备等级为武器原始装备等级，扣减的等级不算");
             if(possibleScrolls.length >= 6){
                 model.addAttribute("result","全选卷轴：结果将以email形式发送给您");
-                rmqSenderMailService.sendCalculateMsg(weapon, "fubicheng208@126.com");
+                rmqSenderMailService.sendCalculateMsg(weaponEmailDTO);
             }else{
-                model.addAttribute("result", calculateService.getResult(weapon));
+                model.addAttribute("result", calculateService.getResult(weaponEmailDTO.getWeapon()));
             }
         }catch (Exception e){
             model.addAttribute("result","输入有错:" + e.getMessage());

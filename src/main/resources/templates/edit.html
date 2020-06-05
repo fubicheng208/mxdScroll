@@ -8,22 +8,18 @@
             document.getElementById("submit_button").value = "test";
         }
 
-        function start()
-        {
+        function start() {
             document.getElementById("submit_button").disabled = true;
             document.getElementById("submit_button").value = 5;
-            window.setTimeout("tick()",1000);
+            window.setTimeout("tick()", 1000);
         }
-        function tick()
-        {
+
+        function tick() {
             var time = new Number(document.getElementById("submit_button").value);
-            if(time>0)
-            {
-                document.getElementById("submit_button").value = time-1;
-                window.setTimeout("tick()",1000);
-            }
-            else
-            {
+            if (time > 0) {
+                document.getElementById("submit_button").value = time - 1;
+                window.setTimeout("tick()", 1000);
+            } else {
                 document.getElementById("submit_button").disabled = false;
                 document.getElementById("submit_button").value = "提交";
             }
@@ -35,47 +31,128 @@
 <div class="container">
     <h3>输入武器属性</h3>
     <div>
-        <form class="form-horizontal" th:object="${weapon}" th:action="@{/mxd/calculate}" method="post">
+<!--        <form class="form-horizontal" th:object="${weapon}" th:action="@{/mxd/calculate}" method="post">-->
+<!--                <div class="form-group">-->
+<!--                <label class="col-sm-2 control-label">卷轴和星星所加的攻击/魔攻：</label>-->
+<!--                <div class="col-sm-10">-->
+<!--                    <input id="buf_attack" type="text" class="form-control" th:field="*{buf_attack}"/>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label class="col-sm-2 control-label">武器基础攻击/魔攻（不算火花）：</label>-->
+<!--                <div class="col-sm-10">-->
+<!--                    <input  id="base_attack" type="text" class="form-control" th:field="*{base_attack}"/>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label class="col-sm-2 control-label">主属性增加（如战士就是力量）：</label>-->
+<!--                <div class="col-sm-10">-->
+<!--                    <input id="main_attribute" type="text" class="form-control" th:field="*{main_attribute}"/>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label class="col-sm-2 control-label">无关属性增加（如战士就是运气或智力）：</label>-->
+<!--                <div class="col-sm-10">-->
+<!--                    <input id="vice_attribute" type="text" class="form-control" th:field="*{vice_attribute}"/>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label class="col-sm-2 control-label">星星数：</label>-->
+<!--                <div class="col-sm-10">-->
+<!--                    <input id="starNum" th:type="text" class="form-control" th:field="*{starNum}"/>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label class="col-sm-2 control-label">卷轴数：</label>-->
+<!--                <div class="col-sm-10">-->
+<!--                    <input id="scrollNum" th:type="text" class="form-control" th:field="*{scrollNum}"/>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label class="col-sm-2 control-label">武器等级(扣减等级不算)：</label>-->
+<!--                <div class="col-sm-10">-->
+<!--                    <input id="grade" th:type="text" class="form-control" th:field="*{grade}"/>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash;            <div class="form-group">&ndash;&gt;-->
+<!--            &lt;!&ndash;                <label class="col-sm-2 control-label">是否使用了X卷或星火卷（选择否即可，开发中）：</label>&ndash;&gt;-->
+<!--            &lt;!&ndash;                <div class="col-sm-1 control-label">&ndash;&gt;-->
+<!--            &lt;!&ndash;                    <select th:field="*{hasX}" class="selectpicker">&ndash;&gt;-->
+<!--            &lt;!&ndash;                        <option th:each="hasX : ${hasXes}" th:value="${hasX.value}" th:text="${hasX.key}"></option>&ndash;&gt;-->
+<!--            &lt;!&ndash;                    </select>&ndash;&gt;-->
+<!--            &lt;!&ndash;                </div>&ndash;&gt;-->
+<!--            &lt;!&ndash;            </div>&ndash;&gt;-->
+
+<!--            <div class="form-group">-->
+<!--                <label class="col-sm-2 control-label">邮箱(全选所有可能卷轴要填)：</label>-->
+<!--                <div class="col-sm-10">-->
+<!--                    <input id="email" th:type="text" class="form-control" th:field="*{grade}"/>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="form-group" style="padding-left: 15px;">-->
+<!--                <label class="col-sm-2 control-label">可能使用的卷轴：</label>-->
+<!--                <span th:each="scroll: ${scrolls}" style="padding: 20px">-->
+<!--                            <input th:type="checkbox" th:field="*{possibleScrolls}" th:value="${scroll}"/>-->
+<!--                            <label th:text="${scroll}"></label>-->
+<!--                        </span>-->
+<!--            </div>-->
+
+
+
+<!--            <div class="form-group">-->
+<!--                <div class="col-sm-2">-->
+<!--                    <button class="btn btn-primary" type="submit">计算</button>-->
+<!--                </div>-->
+<!--                &lt;!&ndash;              class="btn btn-primary"  type="submit"   onclick="test()"&ndash;&gt;-->
+<!--            </div>-->
+
+<!--        </form>-->
+
+
+
+        <form class="form-horizontal" th:object="${weaponEmailDTO}" th:action="@{/mxd/calculate}" method="post">
             <div class="form-group">
                 <label class="col-sm-2 control-label">卷轴和星星所加的攻击/魔攻：</label>
                 <div class="col-sm-10">
-                    <input id="buf_attack" type="text" class="form-control" th:field="*{buf_attack}"/>
+                    <input id="buf_attack" type="text" class="form-control" th:field="*{weapon.buf_attack}"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">武器基础攻击/魔攻（不算火花）：</label>
                 <div class="col-sm-10">
-                    <input id="base_attack" type="text" class="form-control" th:field="*{base_attack}"/>
+                    <input  id="base_attack" type="text" class="form-control" th:field="*{weapon.base_attack}"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">主属性增加（如战士就是力量）：</label>
                 <div class="col-sm-10">
-                    <input id="main_attribute" type="text" class="form-control" th:field="*{main_attribute}"/>
+                    <input id="main_attribute" type="text" class="form-control" th:field="*{weapon.main_attribute}"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">无关属性增加（如战士就是运气或智力）：</label>
                 <div class="col-sm-10">
-                    <input id="vice_attribute" type="text" class="form-control" th:field="*{vice_attribute}"/>
+                    <input id="vice_attribute" type="text" class="form-control" th:field="*{weapon.vice_attribute}"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">星星数：</label>
                 <div class="col-sm-10">
-                    <input id="starNum" th:type="text" class="form-control" th:field="*{starNum}"/>
+                    <input id="starNum" th:type="text" class="form-control" th:field="*{weapon.starNum}"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">卷轴数：</label>
                 <div class="col-sm-10">
-                    <input id="scrollNum" th:type="text" class="form-control" th:field="*{scrollNum}"/>
+                    <input id="scrollNum" th:type="text" class="form-control" th:field="*{weapon.scrollNum}"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">武器等级(扣减等级不算)：</label>
                 <div class="col-sm-10">
-                    <input id="grade" th:type="text" class="form-control" th:field="*{grade}"/>
+                    <input id="grade" th:type="text" class="form-control" th:field="*{weapon.grade}"/>
                 </div>
             </div>
 
@@ -88,20 +165,30 @@
             <!--                </div>-->
             <!--            </div>-->
 
+            <div class="form-group">
+                <label class="col-sm-2 control-label">邮箱(全选所有可能卷轴要填)：</label>
+                <div class="col-sm-10">
+                    <input id="email" th:type="text" class="form-control" th:field="*{email}"/>
+                </div>
+            </div>
+
             <div class="form-group" style="padding-left: 15px;">
                 <label class="col-sm-2 control-label">可能使用的卷轴：</label>
                 <span th:each="scroll: ${scrolls}" style="padding: 20px">
-                            <input th:type="checkbox" th:field="*{possibleScrolls}" th:value="${scroll}"/>
+                            <input th:type="checkbox" th:field="*{weapon.possibleScrolls}" th:value="${scroll}"/>
                             <label th:text="${scroll}"></label>
                         </span>
             </div>
 
+
+
             <div class="form-group">
                 <div class="col-sm-2">
-                    <button class="btn btn-primary"  type="submit">计算</button>
+                    <button class="btn btn-primary" type="submit">计算</button>
                 </div>
-<!--              class="btn btn-primary"  type="submit"   onclick="test()"-->
+                <!--              class="btn btn-primary"  type="submit"   onclick="test()"-->
             </div>
+
         </form>
     </div>
     <div>

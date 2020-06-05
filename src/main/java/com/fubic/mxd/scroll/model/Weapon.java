@@ -1,13 +1,12 @@
 package com.fubic.mxd.scroll.model;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Arrays;
 
-public class Weapon {
+public class Weapon implements Serializable{
+
+    private static final long serialVersionUID = -1571272574268027060L;
     @NotNull
     @Min(0)
     @Max(22)
@@ -46,6 +45,7 @@ public class Weapon {
     @NotNull
     private int hasX;
 
+
     @NotNull
     private String[] possibleScrolls;
 
@@ -63,6 +63,19 @@ public class Weapon {
         this.grade = grade;
         this.hasX = 0;
     }
+
+//    public Weapon(@NotNull @Min(0) @Max(22) int starNum, @NotNull @Min(0) @Max(20) int scrollNum, @NotNull @Min(0) @Max(700) int base_attack, @NotNull @Min(0) @Max(1000) int buf_attack, @NotNull @Min(0) @Max(300) int main_attribute, @NotNull @Min(0) @Max(300) int vice_attribute, @NotNull @Min(0) @Max(300) int grade, @NotNull int hasX, @Email int email, @NotNull String[] possibleScrolls) {
+//        this.starNum = starNum;
+//        this.scrollNum = scrollNum;
+//        this.base_attack = base_attack;
+//        this.buf_attack = buf_attack;
+//        this.main_attribute = main_attribute;
+//        this.vice_attribute = vice_attribute;
+//        this.grade = grade;
+//        this.hasX = hasX;
+//        this.email = email;
+//        this.possibleScrolls = possibleScrolls;
+//    }
 
     public String[] getPossibleScrolls() {
         return possibleScrolls;

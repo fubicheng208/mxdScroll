@@ -2,11 +2,13 @@ package com.fubic.mxd.scroll.dto;
 
 import com.fubic.mxd.scroll.model.Weapon;
 
+import javax.validation.constraints.Email;
 import java.io.Serializable;
 
 public class WeaponEmailDTO implements Serializable {
     private static final long serialVersionUID = -1196974013493367583L;
     Weapon weapon;
+    @Email
     String email;
 
     public WeaponEmailDTO() {
